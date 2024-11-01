@@ -14,6 +14,7 @@ public class Program {
             System.out.println("Введите своё имя: ");
             String name = scanner.nextLine();
             Socket socket = new Socket("localhost", 1400);
+            Client client = new Client(socket,name);
 
             InetAddress inetAddress = socket.getInetAddress();
             System.out.println("InetAddress: " + inetAddress);
@@ -21,6 +22,9 @@ public class Program {
             System.out.println("Remote IP Address: " + remoteIp);
             System.out.println("LocalPort: " + socket.getLocalPort());
 
+
+
+            client.listenForMessages();
 
         } catch (UnknownHostException e) {
             e.printStackTrace();

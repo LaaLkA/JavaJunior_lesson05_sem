@@ -19,8 +19,25 @@ public class Client {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
     }
-    //1^00^00
-    public void listenForMessages() {}
+
+
+    /**
+     * Слушатель для входящих сообщений
+     */
+    public void listenForMessages() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }).start();
+    }
+    /**
+     * Отправить сообщение
+     */
+    public void sendMessage() {
+
+    }
 
     private void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
         try {
