@@ -2,6 +2,7 @@ package ru.laaka.chat.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
     private final Socket socket;
@@ -28,24 +29,49 @@ public class Client {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                String message;
+                while (socket.isConnected()) {
+                    try {
+                        message = bufferedReader.readLine();
+                        System.out.println(message);
+                    } catch (IOException e) {
+                        closeEverything(socket, bufferedReader, bufferedWriter);
+                    }
+                }
             }
         }).start();
     }
+
     /**
      * Отправить сообщение
      */
     public void sendMessage() {
+        try {
+            bufferedWriter.write(name);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+            Scanner scanner = new Scanner(System.in);
+            while (socket.isConnected()) {
+                String message = scanner.nextLine();
+                bufferedWriter.write(name + ": " + message);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+            }
+        } catch (IOException e) {
+            closeEverything(socket, bufferedReader, bufferedWriter);
+        }
+
 
     }
 
     private void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
         try {
             if (bufferedReader != null) {
-                bufferedWriter.close();
+                bufferedReader.close();
             }
             if (bufferedWriter != null) {
-                bufferedReader.close();
+                bufferedWriter.close();
             }
             if (socket != null) {
                 socket.close();
